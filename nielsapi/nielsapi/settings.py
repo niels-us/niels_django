@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'nielsapp',
     'rest_framework',
     'django.contrib.admin',
@@ -41,7 +42,32 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg2',
 ]
+
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    'site_title': 'NIELS APIREST',
+    'site_header': 'NIELS APIREST',
+    # "site_logo": "tienda/static/logo.png",
+    'welcome_sign': 'Inicio de Sesion',
+    "copyright": "GESTION BD",
+    
+    'topmenu_links':[
+        {'app':'nielsapp'},
+        {'model':'nielsapp.Usuario'},
+        {'model':'nielsapp.Equipo'},
+        {'model':'nielsapp.Integrante'},
+        {'name':'Nuevo Equipo','url': '/admin/nielsapp/equipo/add/'},
+        {'name':'Nuevo Integrante','url': '/admin/nielsapp/integrante/add/'},
+        {'name':'Nuevo Usuario','url': '/admin/nielsapp/usuario/add/'},
+        # {'name':'Dashboard MultiShop','url': 'http://localhost:3000', "new_window": True},                
+    ],
+    
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "slate", }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,7 +113,7 @@ WSGI_APPLICATION = 'nielsapi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nielsdb2',
+        'NAME': 'nielsdb3',
         'USER': 'postgres',
         'PASSWORD': '980400440',
         'HOST': '127.0.0.1',

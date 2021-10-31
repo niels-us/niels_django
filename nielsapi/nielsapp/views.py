@@ -3,9 +3,9 @@ from django.conf import settings
 from django.core.mail import send_mail
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 from .models import Equipo, Usuario, Integrante
-from .serializers import EquipoSerializer, UsuarioSerializer, IntegranteSerializer
+from .serializers import EquipoSerializer, UsuarioSerializer, IntegranteSerializer, DescIntegranteSerializer
 import asyncio
 
 
@@ -13,6 +13,7 @@ import asyncio
 
 @api_view(['GET'])
 def index(request):
+    """ Benvenida  """
     data = {'mensaje': 'Bienvenido a Gestion de Equipos'}
     return Response(data)
 
@@ -35,12 +36,12 @@ def Equipos(request, pk=None):
         return Response(serializer.data, status=status.HTTP_200_OK)
     # insert
     elif request.method == 'POST':
-
-        # Correo
-        asyncio.run(email('POST', request.data['nombre']))
-
         serializer = EquipoSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        # ENVIA CORREO CUANDO SE CREA UN EQUIPO
+        asyncio.run(email('POST', request.data['nombre']))
+
         nuevoEquipo = serializer.save()
         return Response(EquipoSerializer(nuevoEquipo).data, status=status.HTTP_201_CREATED)
     # update
@@ -128,6 +129,17 @@ def Integrantes(request, pk=None):
         integrante.delete()
         return Response({'message': 'integrante Eliminado correctamente!'}, status=status.HTTP_200_OK)
 
+# CRUD INTEGRANTE EQUIPO USUARIO *******************************************************************
+
+@api_view(['GET'])
+def DescEquipo(request):
+    integrantes = Integrante.objects.all()
+    serializer = DescIntegranteSerializer(integrantes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
 # CALCULAR CANTIDAD DE INTEGRANTES POR GRUPO
 
 
@@ -149,8 +161,8 @@ async def email(request, nomEquipo):
     send_mail(subject, message, email_from, recipient_list)
     return 'listo'
 
-# base 64
 
+# base 64
 
 # with open('mn.png', 'rb') as imagefile:
 #     byteform=base64.b64encode(imagefile.read())
