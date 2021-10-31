@@ -1,11 +1,12 @@
-import base64
+from collections import Counter
+import time
 from django.conf import settings
 from django.core.mail import send_mail
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from .models import Equipo, Usuario, Integrante
-from .serializers import EquipoSerializer, UsuarioSerializer, IntegranteSerializer, DescIntegranteSerializer
+from .serializers import EquipoSerializer, UsuarioSerializer, IntegranteSerializer, DescIntegranteSerializer, CountIntegranteSerializer
 import asyncio
 
 
@@ -131,6 +132,7 @@ def Integrantes(request, pk=None):
 
 # CRUD INTEGRANTE EQUIPO USUARIO *******************************************************************
 
+
 @api_view(['GET'])
 def DescEquipo(request):
     integrantes = Integrante.objects.all()
@@ -138,16 +140,30 @@ def DescEquipo(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
-
 # CALCULAR CANTIDAD DE INTEGRANTES POR GRUPO
 
 
-def NumIntegrante(request):
+def NumIntegrante():
     integrantes = Integrante.objects.all()
-    serializer = IntegranteSerializer(integrantes, many=True)
-    print(serializer.data)
-    return Response('LISTO')
+    serializer = CountIntegranteSerializer(integrantes, many=True)
+    countEquipo = serializer.data
+    frecuencia = []
+    for n in countEquipo:
+        frecuencia.append(n['equipo'])
+    contador = Counter(frecuencia)
+    print(contador)
+    return Response('')
+
+
+# Configurando Tiempo de 5min
+import os
+a = 0
+while a < 5:
+    # os.wait()
+    time.sleep(5)
+    a = a + 1
+    NumIntegrante()
+    print("Validando integrantes por equipo, pasada %d" % a)
 
 
 # CORREO

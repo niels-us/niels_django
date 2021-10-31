@@ -52,6 +52,8 @@ JAZZMIN_SETTINGS = {
     # "site_logo": "tienda/static/logo.png",
     'welcome_sign': 'Inicio de Sesion',
     "copyright": "GESTION BD",
+    # "changeform_format": "carousel",
+    # "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
     
     'topmenu_links':[
         {'app':'nielsapp'},
@@ -61,7 +63,8 @@ JAZZMIN_SETTINGS = {
         {'name':'Nuevo Equipo','url': '/admin/nielsapp/equipo/add/'},
         {'name':'Nuevo Integrante','url': '/admin/nielsapp/integrante/add/'},
         {'name':'Nuevo Usuario','url': '/admin/nielsapp/usuario/add/'},
-        # {'name':'Dashboard MultiShop','url': 'http://localhost:3000', "new_window": True},                
+        {'name':'Swagger','url': 'http://127.0.0.1:8000/nielsapp/swagger/', "new_window": True},   
+        {'name':'Portafolio','url': 'https://niels-us.github.io/portafolio/', "new_window": True},                
     ],
     
 }

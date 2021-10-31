@@ -1,8 +1,6 @@
+from asyncio.windows_events import NULL
 from rest_framework import serializers
 from .models import Usuario, Equipo, Integrante
-import base64, uuid
-
-# USUARIO******************************************************************************
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -10,28 +8,17 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = '__all__'
 
-# EQUIPO******************************************************************************
-
 
 class EquipoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Equipo
         fields = '__all__'
 
-    # def imagen(self, place):
-    #     imagen = open( self.imagen.path, "rb") 
-    #     data = imagen.read() 
-    #     return "data:image/jpg;base64,%s" % data.encode('base64')
-
-# INTEGRANTE******************************************************************************
-
 
 class IntegranteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Integrante
         fields = '__all__'
-
-# DESCRIPCION INTEGRANTE******************************************************************************
 
 
 class DescIntegranteSerializer(serializers.ModelSerializer):
@@ -45,11 +32,21 @@ class DescIntegranteSerializer(serializers.ModelSerializer):
             'id': instance.id,
             'usuario': instance.usuario.nombre,
             'equipo': instance.equipo.nombre,
-            'foto_equipo': instance.equipo.imagen if instance.equipo.imagen != '' else '',
+            # 'foto_equipo': instance.equipo.imagen if instance.equipo.imagen != '' else '',
             'fecha_ingreso': instance.fecha,
-
         }
 
+class CountIntegranteSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Integrante
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        return{
+            # 'usuario': instance.usuario.nombre,
+            'equipo': instance.equipo.nombre,
+        }
 
 # import base64, uuid
 # from django.core.files.base import ContentFile
