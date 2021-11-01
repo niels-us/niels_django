@@ -196,8 +196,6 @@ def NumIntegrante():
 # asyncio.run(Espera_min())
 
 
-NumIntegrante()
-
 # import base64
 
 # with open('mn.png', 'rb') as imagefile:

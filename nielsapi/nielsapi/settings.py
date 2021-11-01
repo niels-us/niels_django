@@ -116,7 +116,7 @@ WSGI_APPLICATION = 'nielsapi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nielsdb3',
+        'NAME': 'nielsdb5',
         'USER': 'postgres',
         'PASSWORD': '980400440',
         'HOST': '127.0.0.1',
