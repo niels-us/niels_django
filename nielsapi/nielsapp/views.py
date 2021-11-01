@@ -30,7 +30,7 @@ def DetEquipo(request):
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-async def Equipos(request, pk=None):
+def Equipos(request, pk=None):
     # select
     if request.method == 'GET':
         equipo = Equipo.objects.filter(id=pk).first()
@@ -42,7 +42,7 @@ async def Equipos(request, pk=None):
         serializer.is_valid(raise_exception=True)
 
         # ENVIA CORREO CUANDO SE CREA UN EQUIPO
-        asyncio.run(email('POST', request.data['nombre']))
+        email('POST', request.data['nombre'])
 
         nuevoEquipo = serializer.save()
         return Response(EquipoSerializer(nuevoEquipo).data, status=status.HTTP_201_CREATED)
@@ -56,6 +56,7 @@ async def Equipos(request, pk=None):
     # delete
     elif request.method == 'DELETE':
         equipo = Equipo.objects.filter(id=pk).first()
+        # equipo.img.selete(save=True)
         equipo.delete()
         return Response({'message': 'Equipo Eliminado correctamente!'}, status=status.HTTP_200_OK)
 
@@ -116,6 +117,7 @@ def Integrantes(request, pk=None):
     elif request.method == 'POST':
         serializer = IntegranteSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        # Mide Numero de Integrantes por Equipo
         NumIntegrante()
         nuevoIntegrante = serializer.save()
         return Response(IntegranteSerializer(nuevoIntegrante).data, status=status.HTTP_201_CREATED)
@@ -145,7 +147,7 @@ def DescEquipo(request):
 # CORREO
 
 
-async def email(request, nomEquipo):
+def email(request, nomEquipo):
     subject = 'Felicidades se creo el Equipo ' + nomEquipo
     message = 'Agregale usuario al equipo ' + nomEquipo
     email_from = settings.EMAIL_HOST_USER

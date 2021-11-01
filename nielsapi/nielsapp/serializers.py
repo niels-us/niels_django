@@ -1,6 +1,7 @@
 from asyncio.windows_events import NULL
 from rest_framework import serializers
 from .models import Usuario, Equipo, Integrante
+from drf_extra_fields.fields import Base64ImageField
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -9,7 +10,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class EquipoSerializer(serializers.ModelSerializer):
+class EquipoSerializer(serializers.ModelSerializer):    
+    imagen = Base64ImageField(required=False)
     class Meta:
         model = Equipo
         fields = '__all__'
